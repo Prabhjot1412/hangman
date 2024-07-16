@@ -5,14 +5,22 @@ require 'colorize'
 require_relative 'config.rb'
 require_relative 'value.rb'
 require_relative 'processor.rb'
+require_relative 'helper'
 
 conf = Config.new
 lifes = conf.starting_lifes
 total_score = 0
-cheat_mode = true # type win to win the game
+
+extend Helper
 
 loop do
   value, type = Value.choose(conf)
+
+  if value == '$WIN$'
+    puts 'you win the game'
+    exit
+  end
+
   coded_value = Processor.only_vowels(value, type)
   system('clear')
   already_used = []
@@ -39,20 +47,13 @@ loop do
       lifes -= 1 unless guess_correct
 
       if lifes == 0
-        puts "you lose, answer #{coded_value.value}"
-        puts "your total score is #{total_score}"
-        exit
+        lose_message(coded_value, total_score)
       end
 
       if coded_value.solved?
-        puts 'you won'
         lifes += 1
         total_score += coded_value.score
-
-        4.times do
-          print '.'
-          sleep 0.5
-        end
+        win_message(coded_value)
 
         break
       end
@@ -60,36 +61,25 @@ loop do
       exit
     elsif value == 'guess'
       if coded_value.value.downcase == gets.chomp
-        puts 'you won'
         lifes += 1
         total_score += coded_value.score
-
-        4.times do
-          print '.'
-          sleep 0.5
-        end
+        win_message(coded_value)
 
         break
       else
         puts 'incorrect guess'
         lifes -= 1
+
         if lifes == 0
-          puts "you lose, answer #{coded_value.value}"
-          puts "your total score is #{total_score}"
-          exit
+          lose_message(coded_value, total_score)
         end
       end
-    elsif value == 'win' && cheat_mode
-      puts "you won, it was: #{coded_value.value}"
-        lifes += 1
-        total_score += coded_value.score
+    elsif value == 'win' && conf.cheat_mode
+      lifes += 1
+      total_score += coded_value.score
+      win_message(coded_value)
 
-        4.times do
-          print '.'
-          sleep 0.5
-        end
-
-        break
+      break
     else
       puts 'invalid input'
     end

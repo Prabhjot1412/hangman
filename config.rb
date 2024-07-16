@@ -4,7 +4,7 @@ class Config
 
   attr_accessor :categories
 
-  attr_reader :starting_lifes, :hints
+  attr_reader :starting_lifes, :hints, :cheat_mode
   def initialize()
     @categories = {
                     movie: [true, "I18n.t('movies').uniq.sample"],
@@ -14,7 +14,8 @@ class Config
                   }
 
     @starting_lifes = 5
-    @hints = false
+    @hints = true # turning this on will show hint when low on lives if present.
+    @cheat_mode = true # type win to win the game
   end
 
   def self.score
