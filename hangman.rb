@@ -34,7 +34,7 @@ loop do
     hint = conf.hints ? ": #{lifes == 1 ? coded_value.hint : '???'}" : ''
     puts "hint -> #{already_used.size < 4 ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
 
-    print 'enter value >> '
+    print 'enter a letter >> '
     value = gets.chomp
     system('clear')
 

@@ -8,9 +8,9 @@ module Helper
   def win_message(coded_value)
     puts "you won, it was: #{coded_value.value}"
 
-    4.times do
+    3.times do
       print '.'
-      sleep 0.5
+      sleep 0.25
     end
   end
 end

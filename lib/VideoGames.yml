@@ -6,13 +6,13 @@ en:
             - "gta vice city"
             - "magic the gathering arena"
             - "legend of zelda"
-            - "danganranpa"
+            - "danganranpa ; thriller"
             - "watchdogs"
             - "hades"
             - "total overdose"
-            - "tomb raider"
-            - "bayoneta"
-            - "borderlands"
+            - "tomb raider ; adventure"
+            - "bayoneta ; action"
+            - "borderlands ; action"
             - "assasins' creed"
             - 'palworld'
             - 'deus ex human revolution'
@@ -20,9 +20,9 @@ en:
             - 'yakuza kiwami'
             - 'age of empire'
             - 'age of wonders'
-            - 'vampyr'
-            - 'vampire masquerade'
-            - 'devil may cry'
+            - 'vampyr ; action'
+            - 'vampire masquerade ; supernatural'
+            - 'devil may cry; action'
             - 'god of war'
             - 'god hand'
             - 'crazy taxi'
@@ -31,3 +31,5 @@ en:
             - 'mass effect andromeda'
             - 'dying light'
             - 'call of duty'
+            - 'life is strange'
+            - 'just cause'

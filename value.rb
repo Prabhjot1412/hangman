@@ -1,3 +1,5 @@
+require_relative 'config'
+
 module Value
   @already_used = []
 
@@ -19,11 +21,13 @@ module Value
         return [value.downcase, type.to_s]
       end
 
-      if count > 10
-        ['$WIN%', "$WIN$"]
+      if count >= 10
+        return ['$WIN$', "$WIN$"]
       end
 
       count += 1
+      puts "\n#{count} #{value.split(';')[0]}"
+      sleep 1
     end
   end
 end

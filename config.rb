@@ -1,16 +1,22 @@
+require_relative 'lib/lib.rb'
+
+VALUE_COLLECTION = {
+  movie: I18n.t('movies').uniq.shuffle,
+  game: I18n.t('video_games').uniq.shuffle,
+  anime: I18n.t('anime.titles').uniq.shuffle,
+  tv_show: I18n.t('tv_shows').uniq.shuffle
+}
 
 class Config
-  require_relative 'lib/lib.rb'
-
   attr_accessor :categories
 
   attr_reader :starting_lifes, :hints, :cheat_mode
-  def initialize()
+  def initialize(difficulty: 10)
     @categories = {
-                    movie: [true, "I18n.t('movies').uniq.sample"],
-                    game: [true, "I18n.t('video_games').uniq.sample"],
-                    anime: [true, "I18n.t('anime.titles').uniq.sample"],
-                    tv_show: [true, "I18n.t('tv_shows').uniq.sample"],
+                    movie: [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
+                    game: [true, "VALUE_COLLECTION[:game].first(#{difficulty}).sample"],
+                    anime: [true, "VALUE_COLLECTION[:anime].first(#{difficulty}).sample"],
+                    tv_show: [true, "VALUE_COLLECTION[:tv_show].first(#{difficulty}).sample"],
                   }
 
     @starting_lifes = 5
