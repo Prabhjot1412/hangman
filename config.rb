@@ -10,8 +10,8 @@ VALUE_COLLECTION = {
 class Config
   attr_accessor :categories
 
-  attr_reader :starting_lifes, :hints, :cheat_mode
-  def initialize(difficulty: 10)
+  attr_reader :starting_lifes, :hints, :cheat_mode, :hide_mode, :difficulty
+  def initialize(difficulty: 20)
     @categories = {
                     movie: [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
                     game: [true, "VALUE_COLLECTION[:game].first(#{difficulty}).sample"],
@@ -22,6 +22,8 @@ class Config
     @starting_lifes = 5
     @hints = true # turning this on will show hint when low on lives if present.
     @cheat_mode = true # type win to win the game
+    @hide_mode = 'only_vowels' # 'only_vowels' 'fully_hidden'
+    @difficulty = difficulty
   end
 
   def self.score
@@ -48,5 +50,12 @@ class Config
     y: 9,
     z: 9
   }
+  end
+end
+
+String.class_eval do
+  def humanize
+    str = self.capitalize
+    str.gsub('-', ' ')
   end
 end

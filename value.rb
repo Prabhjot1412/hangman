@@ -1,7 +1,7 @@
 require_relative 'config'
 
 module Value
-  @already_used = []
+  @already_used = {}
 
   def self.choose(conf)
     count = 0
@@ -16,8 +16,9 @@ module Value
 
       value = eval(categories[type][1])
 
-      unless @already_used.include?(value)
-        @already_used << value
+      @already_used[type] ||= []
+      unless @already_used[type].include?(value)
+        @already_used[type] << value
         return [value.downcase, type.to_s]
       end
 
@@ -29,5 +30,9 @@ module Value
       puts "\n#{count} #{value.split(';')[0]}"
       sleep 1
     end
+  end
+
+  def self.already_used
+    @already_used
   end
 end

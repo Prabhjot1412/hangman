@@ -18,10 +18,11 @@ loop do
 
   if value == '$WIN$'
     puts 'you win the game'
+    puts_leftover(conf)
     exit
   end
 
-  coded_value = Processor.only_vowels(value, type)
+  coded_value = eval("Processor.#{conf.hide_mode}(value, type)")
   system('clear')
   already_used = []
 
@@ -31,7 +32,7 @@ loop do
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
     puts "lifes => #{lifes}"
     puts "current score => #{total_score}"
-    hint = conf.hints ? ": #{lifes == 1 ? coded_value.hint : '???'}" : ''
+    hint = conf.hints ? ": #{lifes == 1 ? coded_value.hint : '???'}" : ""
     puts "hint -> #{already_used.size < 4 ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
 
     print 'enter a letter >> '

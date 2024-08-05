@@ -1,8 +1,8 @@
 en:
   video_games:
-            - "gta san andreas"
-            - "scarlet nexus"
-            - "dragon ball z budakai tenkaichi 3"
+            - "gta san andreas ; open world"
+            - "scarlet nexus ; anime"
+            - "dragon ball z budakai tenkaichi 3 ; anime"
             - "gta vice city"
             - "magic the gathering arena"
             - "legend of zelda"
@@ -15,21 +15,25 @@ en:
             - "borderlands ; action"
             - "assasins' creed"
             - 'palworld'
-            - 'deus ex human revolution'
-            - 'deus ex mankind divided'
-            - 'yakuza kiwami'
-            - 'age of empire'
-            - 'age of wonders'
+            - 'deus ex human revolution ; action'
+            - 'deus ex mankind divided ; action'
+            - 'yakuza kiwami ; open world'
+            - 'age of empire ; 4x'
+            - 'age of wonders ; 4x'
+            - 'stellaris ; 4x'
             - 'vampyr ; action'
             - 'vampire masquerade ; supernatural'
-            - 'devil may cry; action'
+            - 'devil may cry ; action'
             - 'god of war'
             - 'god hand'
             - 'crazy taxi'
-            - 'prototype'
-            - 'mass effect'
-            - 'mass effect andromeda'
-            - 'dying light'
+            - 'prototype ; zombie'
+            - 'mass effect ; space'
+            - 'mass effect andromeda ; space'
+            - 'dying light ; zombie'
             - 'call of duty'
             - 'life is strange'
-            - 'just cause'
+            - 'just cause ; action'
+            - 'tales of arise ; anime'
+            - 'need for speed ; racing'
+            - 'far cry; open world'

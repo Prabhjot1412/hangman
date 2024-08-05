@@ -1,27 +1,28 @@
 en:
   tv_shows:
-            - "modern family"
-            - "futurama"
-            - "the big bang theory"
-            - "archer"
-            - "rick and morty"
-            - "two and a half men"
-            - "black adder"
-            - "the thin blue line"
+            - "modern family ; comedy"
+            - "futurama ; comedy"
+            - "the big bang theory ; comedy"
+            - "archer ; comedy"
+            - "rick and morty ; sci-fi"
+            - "two and a half men ; comedy"
+            - "black adder ; comedy"
+            - "the thin blue line ; comedy"
             - "superstore ; comedy"
             - "the it crowd ; comedy"
             - "what we do in the shadows ; comedy"
             - "it's always sunny in philadelphia"
             - "community ; comedy"
-            - "friends"
-            - "wizards of waverly place"
+            - "friends ; comedy"
+            - "wizards of waverly place ; comedy"
             - "lucifer ; drama"
             - "yes minister ; comedy"
-            - 'gravity falls'
-            - 'phinease and ferb'
+            - 'gravity falls ; mystery'
+            - 'phinease and ferb ; comedy'
             - 'sarabhai vs sarabhai ; comedy'
-            - 'the dalton brothers'
-            - 'ryukendo'
+            - 'the dalton brothers ; comedy'
+            - 'ryukendo ; action'
             - 'badi door se aae hai ; comedy'
-            - 'family guy'
-            - '2 broke girls'
+            - 'family guy ; animated'
+            - '2 broke girls ; comedy'
+            - 'father ted ; comedy'

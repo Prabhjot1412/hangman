@@ -34,7 +34,7 @@ module Processor
 
     def guess(g)
       return true if value == g.downcase
-      
+
       return false
     end
 
@@ -62,11 +62,23 @@ module Processor
     Code.new(chars, type, hint)
   end
 
+  def self.fully_hidden(value, type)
+    new_value, hint = split_value_and_hint(value)
+    chars = new_value.split('')
+
+    chars.map! do |v|
+      hidden = is_hidden?(v, :fully_hidden) ? true : false
+      [v, hidden]
+    end
+
+    Code.new(chars, type, hint)
+  end
+
   private
 
-  def self.is_hidden?(v)
+  def self.is_hidden?(v, type = :only_vowels)
     return false if v == ' '
-    return false if Vowels.include?(v)
+    return false if type == :only_vowels && Vowels.include?(v) 
     return false unless v >= 'a' && v <= 'z' # if its not an alphabet
 
     return true
