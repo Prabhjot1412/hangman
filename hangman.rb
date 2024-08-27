@@ -19,7 +19,6 @@ loop do
   if value == '$WIN$'
     puts 'you win the game'
     puts_leftover(conf)
-    exit
   end
 
   coded_value = eval("Processor.#{conf.hide_mode}(value, type)")
@@ -32,7 +31,7 @@ loop do
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
     puts "lifes => #{lifes}"
     puts "current score => #{total_score}"
-    hint = conf.hints ? ": #{lifes == 1 ? coded_value.hint : '???'}" : ""
+    hint = conf.hints ? ": #{lifes <= 2 ? coded_value.hint : '???'}" : ""
     puts "hint -> #{already_used.size < 4 ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
 
     print 'enter a letter >> '
@@ -48,13 +47,13 @@ loop do
       lifes -= 1 unless guess_correct
 
       if lifes == 0
-        lose_message(coded_value, total_score)
+        lose(coded_value, total_score)
       end
 
       if coded_value.solved?
         lifes += 1
         total_score += coded_value.score
-        win_message(coded_value)
+        win(coded_value)
 
         break
       end
@@ -64,7 +63,7 @@ loop do
       if coded_value.value.downcase == gets.chomp
         lifes += 1
         total_score += coded_value.score
-        win_message(coded_value)
+        win(coded_value)
 
         break
       else
@@ -72,13 +71,13 @@ loop do
         lifes -= 1
 
         if lifes == 0
-          lose_message(coded_value, total_score)
+          lose(coded_value, total_score)
         end
       end
     elsif value == 'win' && conf.cheat_mode
       lifes += 1
       total_score += coded_value.score
-      win_message(coded_value)
+      win(coded_value)
 
       break
     else

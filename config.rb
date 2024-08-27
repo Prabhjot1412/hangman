@@ -11,15 +11,15 @@ class Config
   attr_accessor :categories
 
   attr_reader :starting_lifes, :hints, :cheat_mode, :hide_mode, :difficulty
-  def initialize(difficulty: 20)
+  def initialize(difficulty: 250)
     @categories = {
-                    movie: [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
-                    game: [true, "VALUE_COLLECTION[:game].first(#{difficulty}).sample"],
-                    anime: [true, "VALUE_COLLECTION[:anime].first(#{difficulty}).sample"],
+                    movie:   [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
+                    game:    [true, "VALUE_COLLECTION[:game].first(#{difficulty}).sample"],
+                    anime:   [true, "VALUE_COLLECTION[:anime].first(#{difficulty}).sample"],
                     tv_show: [true, "VALUE_COLLECTION[:tv_show].first(#{difficulty}).sample"],
                   }
 
-    @starting_lifes = 5
+    @starting_lifes = 3
     @hints = true # turning this on will show hint when low on lives if present.
     @cheat_mode = true # type win to win the game
     @hide_mode = 'only_vowels' # 'only_vowels' 'fully_hidden'

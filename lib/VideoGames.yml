@@ -4,12 +4,14 @@ en:
             - "scarlet nexus ; anime"
             - "dragon ball z budakai tenkaichi 3 ; anime"
             - "gta vice city"
-            - "magic the gathering arena"
+            - "magic the gathering arena ; tcg"
+            - "slay the spire ; tcg"
             - "legend of zelda"
             - "danganranpa ; thriller"
-            - "watchdogs"
-            - "hades"
-            - "total overdose"
+            - "watchdogs ; action"
+            - "hades ; roguelite"
+            - "noita ; roguelike"
+            - "total overdose ; action"
             - "tomb raider ; adventure"
             - "bayoneta ; action"
             - "borderlands ; action"
@@ -31,9 +33,14 @@ en:
             - 'mass effect ; space'
             - 'mass effect andromeda ; space'
             - 'dying light ; zombie'
-            - 'call of duty'
+            - 'call of duty ; fps'
+            - 'battlefield ; fps'
             - 'life is strange'
             - 'just cause ; action'
             - 'tales of arise ; anime'
             - 'need for speed ; racing'
-            - 'far cry; open world'
+            - 'far cry ; open world'
+            - 'megaman ; retro'
+            - 'mario ; retro'
+            - 'tekken ; fighting'
+            - 'mortal kombat ; fighting'

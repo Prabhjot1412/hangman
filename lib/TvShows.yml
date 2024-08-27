@@ -11,7 +11,7 @@ en:
             - "superstore ; comedy"
             - "the it crowd ; comedy"
             - "what we do in the shadows ; comedy"
-            - "it's always sunny in philadelphia"
+            - "it's always sunny in philadelphia ; comedy"
             - "community ; comedy"
             - "friends ; comedy"
             - "wizards of waverly place ; comedy"
@@ -26,3 +26,8 @@ en:
             - 'family guy ; animated'
             - '2 broke girls ; comedy'
             - 'father ted ; comedy'
+            - 'adam ruins everything ; infotainment'
+            - 'johnny bravo ; animated'
+            - 'power puff girls ; animated'
+            - 'takeshi's castle ; gameshow'
+            - 'kaun banega crorepati ; gameshow'
