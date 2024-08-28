@@ -10,7 +10,7 @@ VALUE_COLLECTION = {
 class Config
   attr_accessor :categories
 
-  attr_reader :starting_lifes, :hints, :cheat_mode, :hide_mode, :difficulty
+  attr_reader :starting_lifes, :hints, :cheat_mode, :hide_mode, :difficulty, :random_letters_revealed
   def initialize(difficulty: 250)
     @categories = {
                     movie:   [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
@@ -19,10 +19,11 @@ class Config
                     tv_show: [true, "VALUE_COLLECTION[:tv_show].first(#{difficulty}).sample"],
                   }
 
-    @starting_lifes = 3
+    @starting_lifes = 5
     @hints = true # turning this on will show hint when low on lives if present.
     @cheat_mode = true # type win to win the game
-    @hide_mode = 'only_vowels' # 'only_vowels' 'fully_hidden'
+    @hide_mode = 'random_revealed' # 'only_vowels' 'fully_hidden' 'random_revealed'
+    @random_letters_revealed = 5
     @difficulty = difficulty
   end
 

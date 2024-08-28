@@ -4,11 +4,12 @@ module Processor
   class Code
     require_relative 'config.rb'
 
-    attr_reader :chars, :type, :hint
-    def initialize(chars, type, hint)
+    attr_reader :chars, :type, :hint, :revealed_letters
+    def initialize(chars, type, hint, revealed_letters: [])
       @chars = chars
       @type = type
       @hint = hint
+      @revealed_letters = revealed_letters
     end
 
     def value
@@ -29,6 +30,7 @@ module Processor
         end
       end
 
+      @revealed_letters << l unless @revealed_letters.include?(l)
       return is_changed
     end
 
@@ -50,7 +52,7 @@ module Processor
     end
   end
 
-  def self.only_vowels(value, type)
+  def self.only_vowels(value, type, conf)
     new_value, hint = split_value_and_hint(value)
     chars = new_value.split('')
 
@@ -62,7 +64,7 @@ module Processor
     Code.new(chars, type, hint)
   end
 
-  def self.fully_hidden(value, type)
+  def self.fully_hidden(value, type, conf)
     new_value, hint = split_value_and_hint(value)
     chars = new_value.split('')
 
@@ -72,6 +74,26 @@ module Processor
     end
 
     Code.new(chars, type, hint)
+  end
+
+  def self.random_revealed(value, type, conf)
+    new_value, hint = split_value_and_hint(value)
+    chars = new_value.split('')
+    revealed_letters = ('a'..'z').to_a.sample(conf.random_letters_revealed)
+
+    chars.map! do |v|
+      unless is_hidden?(v, :fully_hidden)
+        [v, false]
+      else
+        unless revealed_letters.include?(v.downcase)
+          [v, true]
+        else
+          [v,false]
+        end
+      end
+    end
+
+    Code.new(chars, type, hint, revealed_letters: revealed_letters)
   end
 
   private

@@ -21,9 +21,9 @@ loop do
     puts_leftover(conf)
   end
 
-  coded_value = eval("Processor.#{conf.hide_mode}(value, type)")
+  coded_value = eval("Processor.#{conf.hide_mode}(value, type, conf)")
   system('clear')
-  already_used = []
+  already_used = coded_value.revealed_letters
 
   loop do
     puts coded_value.encoded_value
@@ -32,7 +32,7 @@ loop do
     puts "lifes => #{lifes}"
     puts "current score => #{total_score}"
     hint = conf.hints ? ": #{lifes <= 2 ? coded_value.hint : '???'}" : ""
-    puts "hint -> #{already_used.size < 4 ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
+    puts "hint -> #{already_used.size < conf.random_letters_revealed + 2 ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
 
     print 'enter a letter >> '
     value = gets.chomp
@@ -41,7 +41,6 @@ loop do
     if already_used.include?(value)
       puts value + ' already used.'
     elsif value.size == 1
-      already_used << value
       guess_correct = coded_value.reveal_letter(value)
       puts guess_correct ? 'correct guess' : 'no such letter'
       lifes -= 1 unless guess_correct
