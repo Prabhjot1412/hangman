@@ -9,12 +9,18 @@ module Helper
     exit
   end
 
-  def win(coded_value)
+  def win(coded_value, total_score, turn, bargain_maker, config)
     puts "you won, it was: #{coded_value.value}"
 
     3.times do
       print '.'
       sleep 0.25
+    end
+
+    if turn % config.bargain_frequency == 0
+      bargain_maker.make_offer
+
+      lose(coded_value, total_score) if config.lifes <= 0
     end
   end
 
@@ -36,6 +42,23 @@ module Helper
       else
         puts 'invalid input'
       end
+    end
+  end
+
+  def get_and_validate_yes_no_input(message)
+    print "#{message}"
+    input = gets.chomp
+
+    while !['yes', 'y', 'no', 'n'].include?(input.downcase)
+      puts 'invalid input'
+      print "#{message}"
+      input = gets.chomp
+    end
+  
+    if ['yes', 'y'].include?(input.downcase)
+      return true
+    else
+      return false
     end
   end
 end

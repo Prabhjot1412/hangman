@@ -6,10 +6,11 @@ require_relative 'config.rb'
 require_relative 'value.rb'
 require_relative 'processor.rb'
 require_relative 'helper'
+require_relative 'bargain_maker'
 
 conf = Config.new
-lifes = conf.starting_lifes
 total_score = 0
+turn = 0
 
 extend Helper
 
@@ -24,14 +25,15 @@ loop do
   coded_value = eval("Processor.#{conf.hide_mode}(value, type, conf)")
   system('clear')
   already_used = coded_value.revealed_letters
+  bargain_maker = BargainMaker.new(config: conf)
 
   loop do
     puts coded_value.encoded_value
-    puts 'exit => quit   guess => guess'
+    puts 'exit => quit'
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
-    puts "lifes => #{lifes}"
+    puts "lifes => #{conf.lifes}"
     puts "current score => #{total_score}"
-    hint = conf.hints ? ": #{lifes <= 2 ? coded_value.hint : '???'}" : ""
+    hint = conf.hints ? ": #{conf.lifes <= 2 ? coded_value.hint : '???'}" : ""
     puts "hint -> #{already_used.size < conf.random_letters_revealed + 2 ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
 
     print 'enter a letter >> '
@@ -43,40 +45,27 @@ loop do
     elsif value.size == 1
       guess_correct = coded_value.reveal_letter(value)
       puts guess_correct ? 'correct guess' : 'no such letter'
-      lifes -= 1 unless guess_correct
+      conf.lifes -= 1 unless guess_correct
 
-      if lifes == 0
+      if conf.lifes == 0
         lose(coded_value, total_score)
       end
 
       if coded_value.solved?
-        lifes += 1
+        conf.lifes += 1
         total_score += coded_value.score
-        win(coded_value)
+        turn += 1
+        win(coded_value, total_score, turn, bargain_maker, conf)
 
         break
       end
     elsif value == 'exit'
       exit
-    elsif value == 'guess'
-      if coded_value.value.downcase == gets.chomp
-        lifes += 1
-        total_score += coded_value.score
-        win(coded_value)
-
-        break
-      else
-        puts 'incorrect guess'
-        lifes -= 1
-
-        if lifes == 0
-          lose(coded_value, total_score)
-        end
-      end
     elsif value == 'win' && conf.cheat_mode
-      lifes += 1
+      conf.lifes += 1
       total_score += coded_value.score
-      win(coded_value)
+      turn += 1
+      win(coded_value, total_score, turn, bargain_maker, conf)
 
       break
     else

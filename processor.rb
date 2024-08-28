@@ -53,6 +53,11 @@ module Processor
   end
 
   def self.only_vowels(value, type, conf)
+    if conf.fog > 0
+      conf.fog -= 1
+      return fully_hidden(value, type, conf)
+    end
+
     new_value, hint = split_value_and_hint(value)
     chars = new_value.split('')
 
@@ -61,7 +66,7 @@ module Processor
       [v, hidden]
     end
 
-    Code.new(chars, type, hint)
+    Code.new(chars, type, hint, revealed_letters: (Vowels + conf.revealed_letters).uniq)
   end
 
   def self.fully_hidden(value, type, conf)
@@ -69,17 +74,27 @@ module Processor
     chars = new_value.split('')
 
     chars.map! do |v|
-      hidden = is_hidden?(v, :fully_hidden) ? true : false
-      [v, hidden]
+      if conf.fog >= 0 && conf.revealed_letters.include?(v)
+        [v, false]
+      else
+        hidden = is_hidden?(v, :fully_hidden) ? true : false
+        [v, hidden]
+      end
     end
 
     Code.new(chars, type, hint)
   end
 
   def self.random_revealed(value, type, conf)
+    if conf.fog > 0
+      conf.fog -= 1
+      return fully_hidden(value, type, conf)
+    end
+
     new_value, hint = split_value_and_hint(value)
     chars = new_value.split('')
-    revealed_letters = ('a'..'z').to_a.sample(conf.random_letters_revealed)
+    revealed_letters = ('a'..'z').to_a.sample(conf.random_letters_revealed) + conf.revealed_letters
+    revealed_letters.uniq!
 
     chars.map! do |v|
       unless is_hidden?(v, :fully_hidden)
