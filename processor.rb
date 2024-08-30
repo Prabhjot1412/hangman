@@ -66,7 +66,7 @@ module Processor
       [v, hidden]
     end
 
-    Code.new(chars, type, hint, revealed_letters: (Vowels + conf.revealed_letters).uniq)
+    Code.new(chars, type, hint, revealed_letters: (Vowels + conf.revealed_letters.clone).uniq)
   end
 
   def self.fully_hidden(value, type, conf)
@@ -74,7 +74,7 @@ module Processor
     chars = new_value.split('')
 
     chars.map! do |v|
-      if conf.fog >= 0 && conf.revealed_letters.include?(v)
+      if conf.fog > 0 && conf.revealed_letters.include?(v)
         [v, false]
       else
         hidden = is_hidden?(v, :fully_hidden) ? true : false
@@ -82,7 +82,7 @@ module Processor
       end
     end
 
-    Code.new(chars, type, hint, revealed_letters: conf.revealed_letters)
+    Code.new(chars, type, hint, revealed_letters: conf.revealed_letters.clone)
   end
 
   def self.random_revealed(value, type, conf)

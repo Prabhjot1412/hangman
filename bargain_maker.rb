@@ -19,7 +19,7 @@ class BargainMaker
     reduce_revealed_letters: "amount of letters visible in the begining is reduced.",
     less_lifes: "life is reduced, may result in game over",
     decrease_life_gain: 'amount of lifes gained after a successful guess is decreased',
-    loose_extra_life: 'add 20% chance to loose half of total lifes on wrong guess instead'
+    loose_extra_life: 'add upto 25% of extra chance to loose half of total lifes on wrong guess instead'
   }
 
   attr_accessor :config
@@ -108,13 +108,13 @@ class BargainMaker
       config.lifes -= less_lifes
       puts "lifes-- #{less_lifes}".red
     when :fog
-      config.fog += rand(4) + 1
+      config.fog += 3 + rand(7)
       puts "letters won't be revealed for few turns".red
     when :decrease_life_gain
       config.life_gain -= 1
       puts "life gain-- #{config.life_gain}".red
     when :loose_extra_life
-      config.loose_half_life_on_wrong_guess += 20
+      config.loose_half_life_on_wrong_guess += ( 10 + rand(15) )
       puts "Chance to loose half life on wrong guess++ #{config.loose_half_life_on_wrong_guess}".red
     end
   end

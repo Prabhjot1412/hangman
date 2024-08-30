@@ -29,7 +29,7 @@ class Config
     @hide_mode = 'random_revealed' # 'only_vowels' 'fully_hidden' 'random_revealed'
     @random_letters_revealed = 5
     @difficulty = difficulty
-    @bargain_frequency = 6
+    @bargain_frequency = 2
     @life_gain = 1
 
     @fog = 0
