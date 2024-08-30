@@ -61,4 +61,26 @@ module Helper
       return false
     end
   end
+
+  def loose_life(config, coded_value, total_score)
+    if check_chance(config.loose_half_life_on_wrong_guess)
+      config.lifes /= 2
+    else
+      config.lifes -= 1
+    end
+
+    if config.lifes == 0
+      lose(coded_value, total_score)
+    end
+  end
+
+  def add_life(config, amt)
+    config.lifes += amt
+  end
+
+  def check_chance(chance_percentage)
+    return true if (rand(100) +1) <= chance_percentage
+
+    false
+  end
 end

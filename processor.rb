@@ -46,7 +46,7 @@ module Processor
 
     def score
       @chars.reduce(0) do |collector, char|
-        collector += char[0] >= 'a' && char[0] <= 'z' && !Vowels.include?(char[0]) ?
+        collector += char[0] >= 'a' && char[0] <= 'z' ?
                       Config.score[char[0].to_sym] : 0
       end
     end
@@ -82,7 +82,7 @@ module Processor
       end
     end
 
-    Code.new(chars, type, hint)
+    Code.new(chars, type, hint, revealed_letters: conf.revealed_letters)
   end
 
   def self.random_revealed(value, type, conf)
@@ -93,7 +93,7 @@ module Processor
 
     new_value, hint = split_value_and_hint(value)
     chars = new_value.split('')
-    revealed_letters = ('a'..'z').to_a.sample(conf.random_letters_revealed) + conf.revealed_letters
+    revealed_letters = ('a'..'z').to_a.sample(conf.random_letters_revealed > 0 ? conf.random_letters_revealed : 0) + conf.revealed_letters
     revealed_letters.uniq!
 
     chars.map! do |v|

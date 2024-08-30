@@ -1,5 +1,6 @@
 require 'colorize'
 require_relative 'helper'
+require_relative 'value'
 
 class BargainMaker
   include Helper
@@ -7,13 +8,18 @@ class BargainMaker
   BOONS = {
     more_lifes: "some more lifes",
     increase_revealed_letters: "amount of letters visible is increased",
-    random_letter_always_revealed: "a random letter will always be revealed"
+    random_letter_always_revealed: "a random letter will always be revealed",
+    increase_life_gain: "amount of lifes gained after a successful guess is increased",
+    progress: "remove random puzzles from game",
+    life_gain_on_right_guess: "add chance to gain life on right guess"
   }
 
   PRICES = {
-    reduce_revealed_letters: "amount of letters visible in the begining is reduced.",
-    less_lifes: "life is reduces, may result in game over",
     fog: 'no revealed letters for next few turns',
+    reduce_revealed_letters: "amount of letters visible in the begining is reduced.",
+    less_lifes: "life is reduced, may result in game over",
+    decrease_life_gain: 'amount of lifes gained after a successful guess is decreased',
+    loose_extra_life: 'add 20% chance to loose half of total lifes on wrong guess instead'
   }
 
   attr_accessor :config
@@ -61,7 +67,7 @@ class BargainMaker
   def grant_boon(boon)
     case boon
     when :more_lifes
-      extra_lifes = rand(10)
+      extra_lifes = 5 + rand(10)
       config.lifes += extra_lifes
       puts "lifes++ #{extra_lifes}".green
     when :increase_revealed_letters
@@ -78,6 +84,17 @@ class BargainMaker
         config.revealed_letters << selected_letter
         puts "letter '#{selected_letter}' will be always revealed"
       end
+    when :increase_life_gain
+      config.life_gain += 1
+      puts "life gain++ #{config.life_gain}".green
+    when :progress
+      (rand(5) +15).times do
+        Value.choose(config, skip: true)
+        sleep 0.3
+      end
+    when :life_gain_on_right_guess
+      config.gain_life_on_right_guess += 10
+      puts "Chance to gain a life on right guess++ #{config.gain_life_on_right_guess}".green
     end
   end
 
@@ -87,12 +104,18 @@ class BargainMaker
       config.random_letters_revealed -= 1
       puts "revealed letters-- 1".red
     when :less_lifes
-      less_lifes = 15 - rand(10)
+      less_lifes = 5 + rand(10)
       config.lifes -= less_lifes
       puts "lifes-- #{less_lifes}".red
     when :fog
       config.fog += rand(4) + 1
       puts "letters won't be revealed for few turns".red
+    when :decrease_life_gain
+      config.life_gain -= 1
+      puts "life gain-- #{config.life_gain}".red
+    when :loose_extra_life
+      config.loose_half_life_on_wrong_guess += 20
+      puts "Chance to loose half life on wrong guess++ #{config.loose_half_life_on_wrong_guess}".red
     end
   end
 end

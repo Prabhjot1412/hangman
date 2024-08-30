@@ -29,7 +29,7 @@ loop do
 
   loop do
     puts coded_value.encoded_value
-    puts 'exit => quit'
+    puts 'exit => quit pay => pay 10 lifes to skip'
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
     puts "lifes => #{conf.lifes}"
     puts "current score => #{total_score}"
@@ -45,24 +45,31 @@ loop do
     elsif value.size == 1
       guess_correct = coded_value.reveal_letter(value)
       puts guess_correct ? 'correct guess' : 'no such letter'
-      conf.lifes -= 1 unless guess_correct
-
-      if conf.lifes == 0
-        lose(coded_value, total_score)
-      end
+      add_life(conf, 1) if guess_correct && check_chance(conf.gain_life_on_right_guess)
+      loose_life(conf, coded_value, total_score) unless guess_correct
 
       if coded_value.solved?
-        conf.lifes += 1
+        add_life(conf, conf.life_gain)
         total_score += coded_value.score
         turn += 1
         win(coded_value, total_score, turn, bargain_maker, conf)
 
         break
       end
+    elsif value == 'pay'
+      conf.lifes -= 10
+
+      if conf.lifes <= 0
+        lose(coded_value, total_score)
+      else
+        total_score += coded_value.score
+        turn += 1
+        win(coded_value, total_score, turn, bargain_maker, conf)
+      end
     elsif value == 'exit'
       exit
     elsif value == 'win' && conf.cheat_mode
-      conf.lifes += 1
+      add_life(conf, conf.life_gain)
       total_score += coded_value.score
       turn += 1
       win(coded_value, total_score, turn, bargain_maker, conf)

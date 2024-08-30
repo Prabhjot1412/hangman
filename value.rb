@@ -3,7 +3,7 @@ require_relative 'config'
 module Value
   @already_used = {}
 
-  def self.choose(conf)
+  def self.choose(conf, skip: false)
     count = 0
 
     loop do
@@ -19,6 +19,7 @@ module Value
       @already_used[type] ||= []
       unless @already_used[type].include?(value)
         @already_used[type] << value
+        puts "\n #{value.split(';')[0]}".blue if skip 
         return [value.downcase, type.to_s]
       end
 
@@ -27,7 +28,7 @@ module Value
       end
 
       count += 1
-      puts "\n#{count} #{value.split(';')[0]}"
+      puts "\n#{count} #{value.split(';')[0]}" unless skip
       sleep 1
     end
   end

@@ -10,7 +10,10 @@ VALUE_COLLECTION = {
 class Config
   attr_accessor :categories
 
-  attr_accessor :random_letters_revealed, :lifes, :fog, :revealed_letters, :bargain_frequency
+  attr_accessor :random_letters_revealed,
+  :lifes, :fog, :revealed_letters, :bargain_frequency, :life_gain,
+  :loose_half_life_on_wrong_guess, :gain_life_on_right_guess
+
   attr_reader :hints, :cheat_mode, :hide_mode, :difficulty
   def initialize(difficulty: 250)
     @categories = {
@@ -20,36 +23,44 @@ class Config
                     tv_show: [true, "VALUE_COLLECTION[:tv_show].first(#{difficulty}).sample"],
                   }
 
-    @lifes = 5
+    @lifes = 6
     @hints = true # turning this on will show hint when low on lives if present.
     @cheat_mode = true # type win to win the game
     @hide_mode = 'random_revealed' # 'only_vowels' 'fully_hidden' 'random_revealed'
     @random_letters_revealed = 5
     @difficulty = difficulty
     @bargain_frequency = 6
+    @life_gain = 1
 
     @fog = 0
     @revealed_letters = []
+    @loose_half_life_on_wrong_guess = 0
+    @gain_life_on_right_guess = 0
   end
 
   def self.score
   {
+    a: 3,
     b: 4,
     c: 4,
     d: 3,
+    e: 3,
     f: 4,
     g: 4,
     h: 3,
+    i: 3,
     j: 5,
     k: 3,
     l: 4,
     m: 2,
     n: 2,
+    o: 3,
     p: 5,
     q: 7,
     r: 3,
     s: 4,
     t: 2,
+    u: 3,
     v: 6,
     w: 8,
     x: 9,
