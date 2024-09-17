@@ -12,7 +12,8 @@ class Config
 
   attr_accessor :random_letters_revealed,
   :lifes, :fog, :revealed_letters, :bargain_frequency, :life_gain,
-  :loose_half_life_on_wrong_guess, :gain_life_on_right_guess
+  :loose_half_life_on_wrong_guess, :gain_life_on_right_guess, :hint_life_threshold,
+  :hint_after_this_many_attempts, :hints_disabled
 
   attr_reader :hints, :cheat_mode, :hide_mode, :difficulty
   def initialize(difficulty: 250)
@@ -29,13 +30,16 @@ class Config
     @hide_mode = 'random_revealed' # 'only_vowels' 'fully_hidden' 'random_revealed'
     @random_letters_revealed = 5
     @difficulty = difficulty
-    @bargain_frequency = 2
+    @bargain_frequency = 5
     @life_gain = 1
+    @hint_after_this_many_attempts = 2
+    @hint_life_threshold = 4
 
     @fog = 0
     @revealed_letters = []
     @loose_half_life_on_wrong_guess = 0
     @gain_life_on_right_guess = 0
+    @hints_disabled = false
   end
 
   def self.score

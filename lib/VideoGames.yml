@@ -3,10 +3,10 @@ en:
             - "gta san andreas ; open world"
             - "scarlet nexus ; anime"
             - "dragon ball z budakai tenkaichi 3 ; anime"
-            - "gta vice city"
+            - "gta vice city ; openworld"
             - "magic the gathering arena ; tcg"
             - "slay the spire ; tcg"
-            - "legend of zelda"
+            - "legend of zelda ; retro"
             - "danganranpa ; thriller"
             - "watchdogs ; action"
             - "hades ; roguelite"
@@ -15,8 +15,8 @@ en:
             - "tomb raider ; adventure"
             - "bayoneta ; action"
             - "borderlands ; action"
-            - "assasins' creed"
-            - 'palworld'
+            - "assasins' creed ; openworld"
+            - 'palworld ; openworld'
             - 'deus ex human revolution ; action'
             - 'deus ex mankind divided ; action'
             - 'yakuza kiwami ; open world'
@@ -26,9 +26,9 @@ en:
             - 'vampyr ; action'
             - 'vampire masquerade ; supernatural'
             - 'devil may cry ; action'
-            - 'god of war'
-            - 'god hand'
-            - 'crazy taxi'
+            - 'god of war ; ps2'
+            - 'god hand ; ps2'
+            - 'crazy taxi ; driving'
             - 'prototype ; zombie'
             - 'mass effect ; space'
             - 'mass effect andromeda ; space'

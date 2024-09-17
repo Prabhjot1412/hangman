@@ -83,4 +83,10 @@ module Helper
 
     false
   end
+
+  def hint(already_used:, config:, hint:, coded_value:)
+    return "" if config.hints_disabled
+
+    "hint -> #{already_used.size < config.random_letters_revealed + config.hint_after_this_many_attempts ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
+  end
 end

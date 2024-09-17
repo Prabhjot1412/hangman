@@ -33,8 +33,8 @@ loop do
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
     puts "lifes => #{conf.lifes}"
     puts "current score => #{total_score}"
-    hint = conf.hints ? ": #{conf.lifes <= 2 ? coded_value.hint : '???'}" : ""
-    puts "hint -> #{already_used.size < conf.random_letters_revealed + 2 ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
+    hint = conf.hints ? ": #{conf.lifes <= conf.hint_life_threshold ? coded_value.hint : '???'}" : ""
+    puts hint(already_used:, config: conf, coded_value:, hint:)
 
     print 'enter a letter >> '
     value = gets.chomp

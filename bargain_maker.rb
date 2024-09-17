@@ -19,7 +19,8 @@ class BargainMaker
     reduce_revealed_letters: "amount of letters visible in the begining is reduced.",
     less_lifes: "life is reduced, may result in game over",
     decrease_life_gain: 'amount of lifes gained after a successful guess is decreased',
-    loose_extra_life: 'add upto 25% of extra chance to loose half of total lifes on wrong guess instead'
+    loose_extra_life: 'add upto 25% of extra chance to loose half of total lifes on wrong guess instead',
+    no_hints: 'you can no longer see hints of any kind'
   }
 
   attr_accessor :config
@@ -116,6 +117,9 @@ class BargainMaker
     when :loose_extra_life
       config.loose_half_life_on_wrong_guess += ( 10 + rand(15) )
       puts "Chance to loose half life on wrong guess++ #{config.loose_half_life_on_wrong_guess}".red
+    when :no_hints
+      config.hints_disabled = true
+      @prices.delete(:no_hints)
     end
   end
 end
