@@ -24,11 +24,14 @@ module Helper
     end
   end
 
-  def puts_leftover(conf)
+  def puts_leftover(conf, pg, total_score)
     VALUE_COLLECTION.keys.each do |key|
       puts "#{key.to_s.humanize}s left: #{VALUE_COLLECTION[key].first(conf.difficulty).select {|item| !Value.already_used[key].include?(item)}.count}"
     end
+    puts ''
+    puts 'add your score and exit: add              view previous winners: list' if pg
 
+    added = false
     loop do
       user_inp = gets.chomp
       exit if user_inp == 'exit'
@@ -39,9 +42,23 @@ module Helper
         VALUE_COLLECTION[key].first(conf.difficulty).each do |item|
           eval("puts item.split(';')[0].#{Value.already_used[key].include?(item) ? 'green' : 'red'}")
         end
+      elsif user_inp == 'add' && pg && !added
+        print "enter name: "
+        name = gets.chomp
+        pg.create_winner(name, total_score)
+        added = true
+        puts "added score successfully".green
+      elsif user_inp == 'add' && added
+        puts "already added".red
+      elsif user_inp == 'list' && pg
+        winners = pg.winners(limit: 30)
+        winners.each do |winner|
+          puts "#{winner.name}   #{winner.score}"
+        end
       else
         puts 'invalid input'
       end
+
     end
   end
 

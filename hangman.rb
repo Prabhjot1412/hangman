@@ -7,8 +7,10 @@ require_relative 'value.rb'
 require_relative 'processor.rb'
 require_relative 'helper'
 require_relative 'bargain_maker'
+require_relative 'pg_helper'
 
 conf = Config.new
+pg  = PgHelper.create_connection
 total_score = 0
 turn = 0
 
@@ -19,7 +21,7 @@ loop do
 
   if value == '$WIN$'
     puts 'you win the game'
-    puts_leftover(conf)
+    puts_leftover(conf, pg, total_score)
   end
 
   coded_value = eval("Processor.#{conf.hide_mode}(value, type, conf)")
@@ -65,6 +67,8 @@ loop do
         total_score += coded_value.score
         turn += 1
         win(coded_value, total_score, turn, bargain_maker, conf)
+
+        break
       end
     elsif value == 'exit'
       exit

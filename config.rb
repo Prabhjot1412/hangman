@@ -16,7 +16,7 @@ class Config
   :hint_after_this_many_attempts, :hints_disabled
 
   attr_reader :hints, :cheat_mode, :hide_mode, :difficulty
-  def initialize(difficulty: 250)
+  def initialize(difficulty: 255)
     @categories = {
                     movie:   [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
                     game:    [true, "VALUE_COLLECTION[:game].first(#{difficulty}).sample"],
