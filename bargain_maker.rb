@@ -11,7 +11,9 @@ class BargainMaker
     random_letter_always_revealed: "a random letter will always be revealed",
     increase_life_gain: "amount of lifes gained after a successful guess is increased",
     progress: "remove random puzzles from game",
-    life_gain_on_right_guess: "add chance to gain life on right guess"
+    life_gain_on_right_guess: "add chance to gain life on right guess",
+    lower_pay_cost: "lower cost of life to skip",
+    skip_movie_on_correct_guess: 'chance to remove a random puzzle on right guess'
   }
 
   PRICES = {
@@ -20,7 +22,8 @@ class BargainMaker
     less_lifes: "life is reduced, may result in game over",
     decrease_life_gain: 'amount of lifes gained after a successful guess is decreased',
     loose_extra_life: 'add upto 25% of extra chance to loose half of total lifes on wrong guess instead',
-    no_hints: 'you can no longer see hints of any kind'
+    no_hints: 'you can no longer see hints of any kind',
+    higher_pay_cost: 'increase cost of life to skip'
   }
 
   attr_accessor :config
@@ -96,6 +99,13 @@ class BargainMaker
     when :life_gain_on_right_guess
       config.gain_life_on_right_guess += 10
       puts "Chance to gain a life on right guess++ #{config.gain_life_on_right_guess}".green
+    when :lower_pay_cost
+      config.pay_cost -= 1
+      puts "cost to skip decreased to #{config.pay_cost}".green
+    when :skip_movie_on_correct_guess
+      config.skip_puzzle_on_solve[:chance] = 25
+      config.skip_puzzle_on_solve[:stack] += 1
+      puts "added chance to remove random puzzle on right guess".green
     end
   end
 
@@ -120,6 +130,9 @@ class BargainMaker
     when :no_hints
       config.hints_disabled = true
       @prices.delete(:no_hints)
+    when :higher_pay_cost
+      config.pay_cost += 1 + rand(2)
+      puts "cost to skip increased to #{config.pay_cost}".red
     end
   end
 end

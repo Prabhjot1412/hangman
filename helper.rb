@@ -17,6 +17,13 @@ module Helper
       sleep 0.25
     end
 
+    if check_chance(config.skip_puzzle_on_solve[:chance])
+      config.skip_puzzle_on_solve[:stack].times do
+        Value.choose(config, skip: true)
+        sleep 0.3
+      end
+    end
+
     if turn % config.bargain_frequency == 0
       bargain_maker.make_offer
 

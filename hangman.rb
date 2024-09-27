@@ -31,7 +31,7 @@ loop do
 
   loop do
     puts coded_value.encoded_value
-    puts 'exit => quit pay => pay 10 lifes to skip'
+    puts "exit => quit pay => pay #{conf.pay_cost} lifes to skip"
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
     puts "lifes => #{conf.lifes}"
     puts "current score => #{total_score}"
@@ -59,7 +59,7 @@ loop do
         break
       end
     elsif value == 'pay'
-      conf.lifes -= 10
+      conf.lifes -= conf.pay_cost
 
       if conf.lifes <= 0
         lose(coded_value, total_score)

@@ -13,7 +13,8 @@ class Config
   attr_accessor :random_letters_revealed,
   :lifes, :fog, :revealed_letters, :bargain_frequency, :life_gain,
   :loose_half_life_on_wrong_guess, :gain_life_on_right_guess, :hint_life_threshold,
-  :hint_after_this_many_attempts, :hints_disabled
+  :hint_after_this_many_attempts, :hints_disabled, :pay_cost,
+  :skip_puzzle_on_solve
 
   attr_reader :hints, :cheat_mode, :hide_mode, :difficulty
   def initialize(difficulty: 255)
@@ -24,7 +25,7 @@ class Config
                     tv_show: [true, "VALUE_COLLECTION[:tv_show].first(#{difficulty}).sample"],
                   }
 
-    @lifes = 6
+    @lifes = 5
     @hints = true # turning this on will show hint when low on lives if present.
     @cheat_mode = true # type win to win the game
     @hide_mode = 'random_revealed' # 'only_vowels' 'fully_hidden' 'random_revealed'
@@ -34,6 +35,8 @@ class Config
     @life_gain = 1
     @hint_after_this_many_attempts = 2
     @hint_life_threshold = 4
+    @pay_cost = 10
+    @skip_puzzle_on_solve = {chance: 0, stack: 0}
 
     @fog = 0
     @revealed_letters = []
