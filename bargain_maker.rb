@@ -2,13 +2,13 @@ require 'colorize'
 require_relative 'helper'
 require_relative 'value'
 
-class BargainMaker
+class BargainMaker # to-do choose from number boons and apply random price
   include Helper
 
   BOONS = {
     more_lifes: "some more lifes",
     increase_revealed_letters: "amount of letters visible is increased",
-    random_letter_always_revealed: "a random letter will always be revealed",
+    random_letter_always_revealed: "a random letter will always be revealed", # to-do fix bug when letter is also randomly revealed
     increase_life_gain: "amount of lifes gained after a successful guess is increased",
     progress: "remove random puzzles from game",
     life_gain_on_right_guess: "add chance to gain life on right guess",

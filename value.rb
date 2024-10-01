@@ -28,8 +28,10 @@ module Value
       end
 
       count += 1
-      puts "\n#{count} #{value.split(';')[0]}" unless skip
-      sleep 1
+      unless skip
+        puts "\n#{count} #{value.split(';')[0]}" 
+        sleep 1
+      end
     end
   end
 
