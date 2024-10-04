@@ -14,9 +14,9 @@ class Config
   :lifes, :fog, :revealed_letters, :bargain_frequency, :life_gain,
   :loose_half_life_on_wrong_guess, :gain_life_on_right_guess, :hint_life_threshold,
   :hint_after_this_many_attempts, :hints_disabled, :pay_cost,
-  :skip_puzzle_on_solve
+  :skip_puzzle_on_solve, :boons_to_choose_from, :bargain_cost
 
-  attr_reader :hints, :cheat_mode, :hide_mode, :difficulty
+  attr_reader :hints, :cheat_mode, :hide_mode, :difficulty, :debug_mode
   def initialize(difficulty: 255)
     @categories = {
                     movie:   [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
@@ -28,6 +28,7 @@ class Config
     @lifes = 5
     @hints = true # turning this on will show hint when low on lives if present.
     @cheat_mode = true # type win to win the game
+    @debug_mode = true # enter debugger with debug
     @hide_mode = 'random_revealed' # 'only_vowels' 'fully_hidden' 'random_revealed'
     @random_letters_revealed = 5
     @difficulty = difficulty
@@ -37,6 +38,8 @@ class Config
     @hint_life_threshold = 4
     @pay_cost = 10
     @skip_puzzle_on_solve = {chance: 0, stack: 0}
+    @boons_to_choose_from = 3
+    @bargain_cost = 0
 
     @fog = 0
     @revealed_letters = []

@@ -20,12 +20,12 @@ module Helper
     if check_chance(config.skip_puzzle_on_solve[:chance])
       config.skip_puzzle_on_solve[:stack].times do
         Value.choose(config, skip: true)
-        sleep 0.3
+        sleep 0.5
       end
     end
 
     if turn % config.bargain_frequency == 0
-      bargain_maker.make_offer
+      bargain_maker.make_offer(config: config)
 
       lose(coded_value, total_score) if config.lifes <= 0
     end
@@ -69,21 +69,17 @@ module Helper
     end
   end
 
-  def get_and_validate_yes_no_input(message)
-    print "#{message}"
+  def get_and_validate_input(prompt:, possible_answers:)
+    print "#{prompt}"
     input = gets.chomp
-
-    while !['yes', 'y', 'no', 'n'].include?(input.downcase)
+    
+    while !possible_answers.map(&:to_s).include?(input.to_s)
       puts 'invalid input'
-      print "#{message}"
+      print "#{prompt}"
       input = gets.chomp
     end
-  
-    if ['yes', 'y'].include?(input.downcase)
-      return true
-    else
-      return false
-    end
+
+    return input
   end
 
   def loose_life(config, coded_value, total_score)

@@ -30,6 +30,15 @@ loop do
   bargain_maker = BargainMaker.new(config: conf)
 
   loop do
+    if coded_value.solved? # may happen if all the letters are already revealed.
+      add_life(conf, conf.life_gain)
+      total_score += coded_value.score
+      turn += 1
+      win(coded_value, total_score, turn, bargain_maker, conf)
+
+      break
+    end
+
     puts coded_value.encoded_value
     puts "exit => quit pay => pay #{conf.pay_cost} lifes to skip"
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
@@ -79,6 +88,8 @@ loop do
       win(coded_value, total_score, turn, bargain_maker, conf)
 
       break
+    elsif value == 'debug' && conf.debug_mode
+      debugger
     else
       puts 'invalid input'
     end

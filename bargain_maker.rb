@@ -2,13 +2,13 @@ require 'colorize'
 require_relative 'helper'
 require_relative 'value'
 
-class BargainMaker # to-do choose from number boons and apply random price
+class BargainMaker
   include Helper
 
   BOONS = {
     more_lifes: "some more lifes",
     increase_revealed_letters: "amount of letters visible is increased",
-    random_letter_always_revealed: "a random letter will always be revealed", # to-do fix bug when letter is also randomly revealed
+    random_letter_always_revealed: "a random letter will always be revealed",
     increase_life_gain: "amount of lifes gained after a successful guess is increased",
     progress: "remove random puzzles from game",
     life_gain_on_right_guess: "add chance to gain life on right guess",
@@ -23,7 +23,8 @@ class BargainMaker # to-do choose from number boons and apply random price
     decrease_life_gain: 'amount of lifes gained after a successful guess is decreased',
     loose_extra_life: 'add upto 25% of extra chance to loose half of total lifes on wrong guess instead',
     no_hints: 'you can no longer see hints of any kind',
-    higher_pay_cost: 'increase cost of life to skip'
+    higher_pay_cost: 'increase cost of life to skip',
+    bargain_cost: 'increase cost of making bargains'
   }
 
   attr_accessor :config
@@ -38,17 +39,26 @@ class BargainMaker # to-do choose from number boons and apply random price
     end
   end
 
-  def make_offer
-    boon = @boons.keys.sample
+  def make_offer(config:)
+    boons = @boons.keys.sample(config.boons_to_choose_from > @boons.count ? @boons.count : config.boons_to_choose_from)
     price = @prices.keys.sample
 
+    last_choice_index = boons.count() +1
+
     puts "How about a bargain?"
-    puts "what you will get   :-    #{@boons[boon]}"
-    puts "what you will loose :-    #{@prices[price]}"
+    puts "Pick a boon :-"
 
-    answer = get_and_validate_yes_no_input("your choice yes/y or no/n >>>")
+    boons.each_with_index do |boon, index|
+      puts "#{index + 1} - #{@boons[boon]}"
+    end
 
-    if answer == false
+    puts "#{last_choice_index} skip"
+    puts "If you pick a boon, a random pricee will be applied"
+    puts "current price for making bargains: #{config.bargain_cost > 0 ? "#{config.bargain_cost}".red : config.bargain_cost} lifes"
+
+    answer = get_and_validate_input(prompt: "your choice, between 1 to #{last_choice_index} >>>", possible_answers: (1..last_choice_index).to_a)
+
+    if answer.to_i == last_choice_index
       puts "offer rejected"
 
       3.times do
@@ -56,7 +66,15 @@ class BargainMaker # to-do choose from number boons and apply random price
         sleep 0.25
       end
     else
-      grant_boon(boon)
+      if config.lifes <= config.bargain_cost
+        puts "life is too low to make the bargain".blue
+        sleep 0.4
+        return
+      end
+
+      config.lifes -= config.bargain_cost
+
+      grant_boon(boons[answer.to_i() -1])
       collect_price(price)
 
       puts "offer accepted"
@@ -110,10 +128,12 @@ class BargainMaker # to-do choose from number boons and apply random price
   end
 
   def collect_price(price)
+    puts @prices[price]
+
     case price
     when :reduce_revealed_letters
       config.random_letters_revealed -= 1
-      puts "revealed letters-- 1".red
+      puts "revealed letters reduced to #{config.random_letters_revealed}".red
     when :less_lifes
       less_lifes = 5 + rand(10)
       config.lifes -= less_lifes
@@ -125,14 +145,18 @@ class BargainMaker # to-do choose from number boons and apply random price
       config.life_gain -= 1
       puts "life gain-- #{config.life_gain}".red
     when :loose_extra_life
-      config.loose_half_life_on_wrong_guess += ( 10 + rand(15) )
+      config.loose_half_life_on_wrong_guess += ( 5 + rand(15) )
       puts "Chance to loose half life on wrong guess++ #{config.loose_half_life_on_wrong_guess}".red
     when :no_hints
       config.hints_disabled = true
       @prices.delete(:no_hints)
+      puts "All hints are disabled".red
     when :higher_pay_cost
       config.pay_cost += 1 + rand(2)
       puts "cost to skip increased to #{config.pay_cost}".red
+    when :bargain_cost
+      config.bargain_cost += 1
+      puts "bargain cost increased to #{config.bargain_cost}".red
     end
   end
 end
