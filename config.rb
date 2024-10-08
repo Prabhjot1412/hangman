@@ -8,13 +8,12 @@ VALUE_COLLECTION = {
 }
 
 class Config
-  attr_accessor :categories
-
   attr_accessor :random_letters_revealed,
   :lifes, :fog, :revealed_letters, :bargain_frequency, :life_gain,
   :loose_half_life_on_wrong_guess, :gain_life_on_right_guess, :hint_life_threshold,
   :hint_after_this_many_attempts, :hints_disabled, :pay_cost,
-  :skip_puzzle_on_solve, :boons_to_choose_from, :bargain_cost
+  :skip_puzzle_on_solve, :boons_to_choose_from, :bargain_cost, :life_cap,
+  :categories
 
   attr_reader :hints, :cheat_mode, :hide_mode, :difficulty, :debug_mode
   def initialize(difficulty: 255)
@@ -36,10 +35,11 @@ class Config
     @life_gain = 1
     @hint_after_this_many_attempts = 2
     @hint_life_threshold = 4
-    @pay_cost = 10
+    @pay_cost = 8
     @skip_puzzle_on_solve = {chance: 0, stack: 0}
     @boons_to_choose_from = 3
     @bargain_cost = 0
+    @life_cap = nil
 
     @fog = 0
     @revealed_letters = []

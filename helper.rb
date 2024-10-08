@@ -65,14 +65,13 @@ module Helper
       else
         puts 'invalid input'
       end
-
     end
   end
 
   def get_and_validate_input(prompt:, possible_answers:)
     print "#{prompt}"
     input = gets.chomp
-    
+
     while !possible_answers.map(&:to_s).include?(input.to_s)
       puts 'invalid input'
       print "#{prompt}"
@@ -95,6 +94,11 @@ module Helper
   end
 
   def add_life(config, amt)
+    if config.life_cap && config.lifes >= config.life_cap
+      puts "life is already at max".blue
+      return
+    end
+  
     config.lifes += amt
   end
 

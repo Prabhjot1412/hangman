@@ -24,7 +24,8 @@ class BargainMaker
     loose_extra_life: 'add upto 25% of extra chance to loose half of total lifes on wrong guess instead',
     no_hints: 'you can no longer see hints of any kind',
     higher_pay_cost: 'increase cost of life to skip',
-    bargain_cost: 'increase cost of making bargains'
+    bargain_cost: 'increase cost of making bargains',
+    life_cap: 'life cannot be more than 50'
   }
 
   attr_accessor :config
@@ -53,7 +54,7 @@ class BargainMaker
     end
 
     puts "#{last_choice_index} skip"
-    puts "If you pick a boon, a random pricee will be applied"
+    puts "If you pick a boon, a random price will be applied"
     puts "current price for making bargains: #{config.bargain_cost > 0 ? "#{config.bargain_cost}".red : config.bargain_cost} lifes"
 
     answer = get_and_validate_input(prompt: "your choice, between 1 to #{last_choice_index} >>>", possible_answers: (1..last_choice_index).to_a)
@@ -118,7 +119,7 @@ class BargainMaker
       config.gain_life_on_right_guess += 10
       puts "Chance to gain a life on right guess++ #{config.gain_life_on_right_guess}".green
     when :lower_pay_cost
-      config.pay_cost -= 1
+      config.pay_cost -= 1 + rand(2)
       puts "cost to skip decreased to #{config.pay_cost}".green
     when :skip_movie_on_correct_guess
       config.skip_puzzle_on_solve[:chance] = 25
@@ -135,7 +136,7 @@ class BargainMaker
       config.random_letters_revealed -= 1
       puts "revealed letters reduced to #{config.random_letters_revealed}".red
     when :less_lifes
-      less_lifes = 5 + rand(10)
+      less_lifes = 1 + rand(14)
       config.lifes -= less_lifes
       puts "lifes-- #{less_lifes}".red
     when :fog
@@ -145,12 +146,17 @@ class BargainMaker
       config.life_gain -= 1
       puts "life gain-- #{config.life_gain}".red
     when :loose_extra_life
-      config.loose_half_life_on_wrong_guess += ( 5 + rand(15) )
+      config.loose_half_life_on_wrong_guess += ( 1 + rand(24) )
       puts "Chance to loose half life on wrong guess++ #{config.loose_half_life_on_wrong_guess}".red
     when :no_hints
       config.hints_disabled = true
       @prices.delete(:no_hints)
       puts "All hints are disabled".red
+    when :life_cap
+      config.life_cap = 50
+      config.lifes = 50 if config.lifes > config.life_cap
+      @prices.delete(:life_cap)
+      puts "life can no longer be more than #{config.life_cap}".red
     when :higher_pay_cost
       config.pay_cost += 1 + rand(2)
       puts "cost to skip increased to #{config.pay_cost}".red
