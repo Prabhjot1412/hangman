@@ -87,8 +87,9 @@ module Processor
 
   def self.random_revealed(value, type, conf)
     if conf.fog > 0
+      coded_value = fully_hidden(value, type, conf)
       conf.fog -= 1
-      return fully_hidden(value, type, conf)
+      return coded_value
     end
 
     new_value, hint = split_value_and_hint(value)
