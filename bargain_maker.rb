@@ -153,9 +153,11 @@ class BargainMaker
       @prices.delete(:no_hints)
       puts "All hints are disabled".red
     when :life_cap
-      config.life_cap = 50
-      config.lifes = 50 if config.lifes > config.life_cap
-      @prices.delete(:life_cap)
+      config.life_cap ||= 60
+      config.life_cap -= 10
+      config.lifes = config.life_cap if config.lifes > config.life_cap
+      @prices[:life_cap] = "life cannot be more than #{config.life_cap - 10}" # update price prompt
+
       puts "life can no longer be more than #{config.life_cap}".red
     when :higher_pay_cost
       config.pay_cost += 1 + rand(2)
