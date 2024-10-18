@@ -1,10 +1,11 @@
 module Processor
-  Vowels = ['a', 'e', 'i', 'o', 'u']
+  Vowels = %w[a e i o u]
 
   class Code
-    require_relative 'config.rb'
+    require_relative 'config'
 
     attr_reader :chars, :type, :hint, :revealed_letters
+
     def initialize(chars, type, hint, revealed_letters: [])
       @chars = chars
       @type = type
@@ -13,11 +14,11 @@ module Processor
     end
 
     def value
-      @chars.map {|v| v[0]}.join
+      @chars.map { |v| v[0] }.join
     end
 
     def encoded_value
-      @chars.map {|v| v[1] ? '_' : v[0]}.join
+      @chars.map { |v| v[1] ? '_' : v[0] }.join
     end
 
     def reveal_letter(l)
@@ -31,23 +32,26 @@ module Processor
       end
 
       @revealed_letters << l unless @revealed_letters.include?(l)
-      return is_changed
+      is_changed
     end
 
     def guess(g)
       return true if value == g.downcase
 
-      return false
+      false
     end
 
     def solved?
-      chars.none? {|v| v[1]}
+      chars.none? { |v| v[1] }
     end
 
     def score
       @chars.reduce(0) do |collector, char|
-        collector += char[0] >= 'a' && char[0] <= 'z' ?
-                      Config.score[char[0].to_sym] : 0
+        collector + if char[0] >= 'a' && char[0] <= 'z'
+                      Config.score[char[0].to_sym]
+                    else
+                      0
+                    end
       end
     end
   end
@@ -98,34 +102,32 @@ module Processor
     revealed_letters.uniq!
 
     chars.map! do |v|
-      unless is_hidden?(v, :fully_hidden)
-        [v, false]
-      else
-        unless revealed_letters.include?(v.downcase)
-          [v, true]
+      if is_hidden?(v, :fully_hidden)
+        if revealed_letters.include?(v.downcase)
+          [v, false]
         else
-          [v,false]
+          [v, true]
         end
+      else
+        [v, false]
       end
     end
 
     Code.new(chars, type, hint, revealed_letters: revealed_letters)
   end
 
-  private
-
   def self.is_hidden?(v, type = :only_vowels)
     return false if v == ' '
-    return false if type == :only_vowels && Vowels.include?(v) 
+    return false if type == :only_vowels && Vowels.include?(v)
     return false unless v >= 'a' && v <= 'z' # if its not an alphabet
 
-    return true
+    true
   end
 
   def self.split_value_and_hint(value)
     value_and_hint = value.split(';')
     return [value, 'no hint available'] if value_and_hint.length == 1
 
-    return value_and_hint
+    value_and_hint
   end
 end

@@ -10,26 +10,24 @@ module Value
       categories = conf.categories
 
       type = categories
-                  .select {|_k, v| v[0]}
-                  .keys
-                  .sample
+             .select { |_k, v| v[0] }
+             .keys
+             .sample
 
       value = eval(categories[type][1])
 
       @already_used[type] ||= []
       unless @already_used[type].include?(value)
         @already_used[type] << value
-        puts "\n #{value.split(';')[0]}".blue if skip 
+        puts "\n #{value.split(';')[0]}".blue if skip
         return [value.downcase, type.to_s]
       end
 
-      if count >= 10
-        return ['$WIN$', "$WIN$"]
-      end
+      return ['$WIN$', '$WIN$'] if count >= 10
 
       count += 1
       unless skip
-        puts "\n#{count} #{value.split(';')[0]}" 
+        puts "\n#{count} #{value.split(';')[0]}"
         sleep 1
       end
     end

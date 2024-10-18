@@ -53,7 +53,7 @@ loop do
 
     if already_used.include?(value)
       puts value + ' already used.'
-    elsif value.size == 1
+    elsif ('a'..'z').to_a.include?(value.downcase)
       guess_correct = coded_value.reveal_letter(value)
       puts guess_correct ? 'correct guess' : 'no such letter'
       add_life(conf, 1) if guess_correct && check_chance(conf.gain_life_on_right_guess)

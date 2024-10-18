@@ -1,5 +1,5 @@
-require_relative 'config.rb'
-require_relative 'value.rb'
+require_relative 'config'
+require_relative 'value'
 require 'colorize'
 
 module Helper
@@ -24,16 +24,20 @@ module Helper
       end
     end
 
-    if turn % config.bargain_frequency == 0
-      bargain_maker.make_offer(config: config)
+    return unless turn % config.bargain_frequency == 0
 
-      lose(coded_value, total_score) if config.lifes <= 0
-    end
+    bargain_maker.make_offer(config: config)
+
+    lose(coded_value, total_score) if config.lifes <= 0
   end
 
   def puts_leftover(conf, pg, total_score)
     VALUE_COLLECTION.keys.each do |key|
-      puts "#{key.to_s.humanize}s left: #{VALUE_COLLECTION[key].first(conf.difficulty).select {|item| !Value.already_used[key].include?(item)}.count}"
+      next if conf.categories[key][0] == false
+
+      puts "#{key.to_s.humanize}s left: #{VALUE_COLLECTION[key].first(conf.difficulty).select do |item|
+        !Value.already_used[key]&.include?(item)
+      end.count}"
     end
     puts ''
     puts 'add your score and exit: add              view previous winners: list' if pg
@@ -50,13 +54,13 @@ module Helper
           eval("puts item.split(';')[0].#{Value.already_used[key].include?(item) ? 'green' : 'red'}")
         end
       elsif user_inp == 'add' && pg && !added
-        print "enter name: "
+        print 'enter name: '
         name = gets.chomp
         pg.create_winner(name, total_score)
         added = true
-        puts "added score successfully".green
+        puts 'added score successfully'.green
       elsif user_inp == 'add' && added
-        puts "already added".red
+        puts 'already added'.red
       elsif user_inp == 'list' && pg
         winners = pg.winners(limit: 30)
         winners.each do |winner|
@@ -72,13 +76,13 @@ module Helper
     print "#{prompt}"
     input = gets.chomp
 
-    while !possible_answers.map(&:to_s).include?(input.to_s)
+    until possible_answers.map(&:to_s).include?(input.to_s)
       puts 'invalid input'
       print "#{prompt}"
       input = gets.chomp
     end
 
-    return input
+    input
   end
 
   def loose_life(config, coded_value, total_score)
@@ -88,28 +92,28 @@ module Helper
       config.lifes -= 1
     end
 
-    if config.lifes == 0
-      lose(coded_value, total_score)
-    end
+    return unless config.lifes == 0
+
+    lose(coded_value, total_score)
   end
 
   def add_life(config, amt)
     if config.life_cap && config.lifes >= config.life_cap
-      puts "life is already at max".blue
+      puts 'life is already at max'.blue
       return
     end
-  
+
     config.lifes += amt
   end
 
   def check_chance(chance_percentage)
-    return true if (rand(100) +1) <= chance_percentage
+    return true if rand(1..100) <= chance_percentage
 
     false
   end
 
   def hint(already_used:, config:, hint:, coded_value:)
-    return "" if config.hints_disabled
+    return '' if config.hints_disabled
 
     "hint -> #{already_used.size < config.random_letters_revealed + config.hint_after_this_many_attempts ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
   end

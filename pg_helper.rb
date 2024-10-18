@@ -6,6 +6,7 @@ class PgHelper
   PG_PASSWORD = '1234' # add pg password here
 
   attr_accessor :conn
+
   def initialize
     create_db
     @conn = PG.connect(password: PG_PASSWORD, user: PG_USERNAME, dbname: 'hangman_db')
@@ -16,25 +17,27 @@ class PgHelper
 
   def self.create_connection
     new
-  rescue => e
+  rescue StandardError => e
     puts "coudn't connect to db. ERROR: #{e}".blue
-    return false
+    false
   end
 
   def winners(limit: 10)
     return @winners unless @winners.nil?
 
-    winners_list = @conn.exec("select * from winners LIMIT #{limit}")
+    winners_list = @conn.exec("select * from winners order by Score DESC LIMIT #{limit}")
     fields = winners_list.fields
     @winners = winners_list.values.map do |winner|
       @winner_struct.new(
         winner[fields.find_index('name')],
-        winner[fields.find_index('score')],
+        winner[fields.find_index('score')]
       )
     end
   end
 
   def create_winner(name, total_score)
+    @winners ||= winners
+
     @conn.exec("insert into winners (Name, Score) VALUES ('#{name}', #{total_score})")
     @winners.push(@winner_struct.new(name, total_score))
   end

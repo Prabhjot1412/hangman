@@ -1,10 +1,9 @@
 en:
   video_games:
-            - "gta san andreas ; open world"
             - "scarlet nexus ; anime"
             - "dragon ball z budakai tenkaichi 3 ; anime"
-            - "gta vice city ; openworld"
             - "magic the gathering arena ; tcg"
+            - "hearthstone ; tcg"
             - "slay the spire ; tcg"
             - "legend of zelda ; retro"
             - "danganranpa ; thriller"
@@ -17,13 +16,17 @@ en:
             - "borderlands ; action"
             - "assasins' creed ; openworld"
             - 'palworld ; openworld'
-            - 'deus ex human revolution ; action'
-            - 'deus ex mankind divided ; action'
+            - 'witcher 3 ; open world'
             - 'yakuza kiwami ; open world'
             - 'yakuza like a dragon ; open world'
+            - "gta vice city ; openworld"
+            - "gta san andreas ; open world"
+            - 'deus ex human revolution ; action'
+            - 'deus ex mankind divided ; action'
             - 'age of empire ; 4x'
             - 'age of wonders ; 4x'
             - 'stellaris ; 4x'
+            - "sid meier's civilization vi ; 4x"
             - 'vampyr ; action'
             - 'vampire masquerade ; supernatural'
             - 'devil may cry ; action'
