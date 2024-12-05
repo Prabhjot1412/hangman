@@ -18,15 +18,15 @@ class Config
 
   attr_reader :hints, :cheat_mode, :hide_mode, :difficulty, :debug_mode
 
-  def initialize(difficulty: 40)
+  def initialize(difficulty: 30)
     @categories = {
       movie: [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
       game: [true, "VALUE_COLLECTION[:game].first(#{difficulty}).sample"],
       anime: [true, "VALUE_COLLECTION[:anime].first(#{difficulty}).sample"],
       tv_show: [true, "VALUE_COLLECTION[:tv_show].first(#{difficulty}).sample"],
-
-      music: [false, "VALUE_COLLECTION[:music].first(#{difficulty}).sample"]
+      music: [true, "VALUE_COLLECTION[:music].first(#{difficulty}).sample"]
     }
+    initialize_categories(initial_categories: 3)
 
     @lifes = 5
     @hints = true # turning this on will show hint when low on lives if present.
@@ -81,6 +81,13 @@ class Config
       y: 9,
       z: 9
     }
+  end
+end
+
+def initialize_categories(initial_categories:)
+  keys = @categories.keys.sample(initial_categories)
+  @categories.each do |k, _v|
+    @categories[k][0] = keys.include?(k) if @categories[k][0]
   end
 end
 

@@ -6,7 +6,7 @@ class BargainMaker
   include Helper
 
   BOONS = {
-    more_lifes: 'some more lifes',
+    # more_lifes: 'some more lifes',
     increase_revealed_letters: 'amount of letters visible is increased',
     random_letter_always_revealed: 'a random letter will always be revealed',
     increase_life_gain: 'amount of lifes gained after a successful guess is increased',
@@ -19,7 +19,7 @@ class BargainMaker
   PRICES = {
     fog: 'no revealed letters for next few turns',
     reduce_revealed_letters: 'amount of letters visible in the begining is reduced.',
-    less_lifes: 'life is reduced, may result in game over',
+    less_lifes: 'life is decreased by a random amount, won\'t go lower than 1',
     decrease_life_gain: 'amount of lifes gained after a successful guess is decreased',
     loose_extra_life: 'add upto 25% of extra chance to loose half of total lifes on wrong guess instead',
     no_hints: 'you can no longer see hints of any kind',
@@ -35,6 +35,9 @@ class BargainMaker
     @config = config
     @boons = BOONS
     @prices = PRICES
+
+    @prices.delete(:decrease_life_gain) unless config.life_gain > 1
+    @prices.delete(:add_extra_category) if config.categories.select { |_k, v| !v[0] }.count == 0
 
     return unless config.hide_mode == 'only_vowels'
 
@@ -112,6 +115,7 @@ class BargainMaker
       end
     when :increase_life_gain
       config.life_gain += 1
+      @prices[:decrease_life_gain] = PRICES[:decrease_life_gain]
       puts "life gain++ #{config.life_gain}".green
     when :progress
       rand(15..19).times do
@@ -139,14 +143,16 @@ class BargainMaker
       config.random_letters_revealed -= 1
       puts "revealed letters reduced to #{config.random_letters_revealed}".red
     when :less_lifes
-      less_lifes = rand(1..14)
+      less_lifes = 5 + rand(1..14)
       config.lifes -= less_lifes
+      config.lifes = 1 if config.lifes < 1
       puts "lifes-- #{less_lifes}".red
     when :fog
       config.fog += rand(3..9)
       puts "letters won't be revealed for few turns".red
     when :decrease_life_gain
       config.life_gain -= 1
+      @prices.delete(:decrease_life_gain) unless config.life_gain > 1
       puts "life gain-- #{config.life_gain}".red
     when :loose_extra_life
       config.loose_half_life_on_wrong_guess += rand(1..24)
@@ -158,6 +164,7 @@ class BargainMaker
     when :life_cap
       config.life_cap ||= 60
       config.life_cap -= 10
+      config.life_cap = 3 if config.life_cap <= 0
       config.lifes = config.life_cap if config.lifes > config.life_cap
       @prices[:life_cap] = "life cannot be more than #{config.life_cap - 10}" # update price prompt
 
