@@ -117,4 +117,17 @@ module Helper
 
     "hint -> #{already_used.size < config.random_letters_revealed + config.hint_after_this_many_attempts ? '???' : coded_value.type.split('_').map(&:capitalize).join(' ')} #{hint}"
   end
+
+  def premanently_reveal_a_random_letter(config:)
+    letters = ('a'..'z').to_a
+
+    if config.revealed_letters.sort == letters
+      puts 'No effect (all letters are already revealed) '.grey
+    else
+      revealable_letters = letters - config.revealed_letters
+      selected_letter = revealable_letters.sample
+      config.revealed_letters << selected_letter
+      puts "letter '#{selected_letter}' will be always revealed".green
+    end
+  end
 end

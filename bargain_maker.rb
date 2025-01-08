@@ -105,16 +105,7 @@ class BargainMaker
       config.random_letters_revealed += rand(1..1)
       puts 'revealed letters++ 1'.green
     when :random_letter_always_revealed
-      letters = ('a'..'z').to_a
-
-      if config.revealed_letters.sort == letters
-        puts 'No effect (all letters are already revealed) '.grey
-      else
-        revealable_letters = letters - config.revealed_letters
-        selected_letter = revealable_letters.sample
-        config.revealed_letters << selected_letter
-        puts "letter '#{selected_letter}' will be always revealed".green
-      end
+      premanently_reveal_a_random_letter(config:)
     when :increase_life_gain
       config.life_gain += 1
       @prices[:decrease_life_gain] = PRICES[:decrease_life_gain]
