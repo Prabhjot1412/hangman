@@ -53,6 +53,6 @@ class PgHelper
   def create_winners_table
     @conn.exec('CREATE TABLE winners(Id serial NOT NULL, Name varchar(255), Score int, PRIMARY KEY (Id) )')
   rescue PG::DuplicateTable
-    # # do not raise error if table already exists
+    # do not raise error if table already exists
   end
 end

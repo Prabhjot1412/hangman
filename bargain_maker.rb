@@ -6,14 +6,15 @@ class BargainMaker
   include Helper
 
   BOONS = {
-    # more_lifes: 'some more lifes',
+    more_lifes: 'some more lifes',
     increase_revealed_letters: 'amount of letters visible is increased',
     random_letter_always_revealed: 'a random letter will always be revealed',
     increase_life_gain: 'amount of lifes gained after a successful guess is increased',
     progress: 'remove random puzzles from game',
     life_gain_on_right_guess: 'add chance to gain life on right guess',
     lower_pay_cost: 'lower cost of life to skip',
-    skip_movie_on_correct_guess: 'chance to remove a random puzzle on right guess'
+    skip_movie_on_correct_guess: 'chance to remove a random puzzle on right guess',
+    yes_hints: 'Restore hints',
   }
 
   PRICES = {
@@ -25,7 +26,7 @@ class BargainMaker
     no_hints: 'you can no longer see hints of any kind',
     higher_pay_cost: 'increase cost of life to skip',
     bargain_cost: 'increase cost of making bargains',
-    life_cap: 'life cannot be more than 50',
+    life_cap: 'life cannot be more than 50', # reduces consecutively. 50, 40, 30, ...
     add_extra_category: 'add another category of puzzles'
   }
 
@@ -33,11 +34,12 @@ class BargainMaker
 
   def initialize(config:)
     @config = config
-    @boons = BOONS
-    @prices = PRICES
+    @boons = BOONS.dup
+    @prices = PRICES.dup
 
     @prices.delete(:decrease_life_gain) unless config.life_gain > 1
     @prices.delete(:add_extra_category) if config.categories.select { |_k, v| !v[0] }.count == 0
+    @boons.delete(:yes_hints) if config.hints_disabled == false
 
     return unless config.hide_mode == 'only_vowels'
 
@@ -132,6 +134,11 @@ class BargainMaker
       config.skip_puzzle_on_solve[:stack] += 1
       config.skip_puzzle_on_solve[:chance] = 25 + config.skip_puzzle_on_solve[:stack]
       puts 'added chance to remove random puzzle on right guess'.green
+    when :yes_hints
+      config.hints_disabled = false
+      @prices[:no_hints] = PRICES[:no_hints]
+      @boons.delete(:yes_hints)
+      puts 'hints are back'
     end
   end
 
@@ -160,6 +167,7 @@ class BargainMaker
     when :no_hints
       config.hints_disabled = true
       @prices.delete(:no_hints)
+      @boons[:yes_hints] = BOONS[:yes_hints]
       puts 'All hints are disabled'.red
     when :life_cap
       config.life_cap ||= 60

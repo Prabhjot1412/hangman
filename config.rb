@@ -41,7 +41,7 @@ class Config
     @hint_life_threshold = 4
     @pay_cost = 8
     @skip_puzzle_on_solve = { chance: 0, stack: 0 }
-    @boons_to_choose_from = 3
+    @boons_to_choose_from = 4
     @bargain_cost = 0
     @life_cap = nil
 
@@ -65,7 +65,7 @@ class Config
       i: 3,
       j: 5,
       k: 3,
-      l: 4,
+      l: 6,
       m: 2,
       n: 2,
       o: 3,
