@@ -51,7 +51,7 @@ module Helper
 
       if VALUE_COLLECTION.keys.include?(key)
         VALUE_COLLECTION[key].first(conf.difficulty).each do |item|
-          eval("puts item.split(';')[0].#{Value.already_used[key].include?(item) ? 'green' : 'red'}")
+          eval("puts item.split(';')[0].#{Value.already_used[key]&.include?(item) ? 'green' : 'red'}")
         end
       elsif user_inp == 'add' && pg && !added
         print 'enter name: '

@@ -1,6 +1,8 @@
 en:
   video_games:
             - "scarlet nexus ; anime"
+            - "persona 5 ; anime"
+            - 'neir autometa ; anime'
             - "dragon ball z budakai tenkaichi 3 ; anime"
             - "magic the gathering arena ; tcg"
             - "hearthstone ; tcg"
@@ -48,7 +50,9 @@ en:
             - 'mario ; retro'
             - 'tekken ; fighting'
             - 'mortal kombat ; fighting'
+            - 'soul caliber 6 ; fighting'
             - 'mortal kombat shaolin monks ; fighting'
             - 'rimworld ; colony sim'
             - 'terraria ; open world sim'
             - 'minecraft ; open world sim'
+            - 'satisfactory ; open world sim'

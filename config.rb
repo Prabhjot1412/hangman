@@ -86,6 +86,7 @@ end
 
 def initialize_categories(initial_categories:)
   keys = @categories.keys.sample(initial_categories)
+
   @categories.each do |k, _v|
     @categories[k][0] = keys.include?(k) if @categories[k][0]
   end
