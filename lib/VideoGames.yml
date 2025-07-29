@@ -1,8 +1,9 @@
 en:
   video_games:
             - "scarlet nexus ; anime"
-            - "persona 5 ; anime"
-            - 'neir autometa ; anime'
+            - "persona 4 golden"
+            - "persona 5 strikers; anime"
+            - 'nier: automata ; anime'
             - "dragon ball z budakai tenkaichi 3 ; anime"
             - "magic the gathering arena ; tcg"
             - "hearthstone ; tcg"
@@ -18,6 +19,7 @@ en:
             - "borderlands ; action"
             - "assasins' creed ; openworld"
             - 'palworld ; openworld'
+            - 'the godfather ; openworld'
             - 'witcher 3 ; open world'
             - 'yakuza kiwami ; open world'
             - 'yakuza like a dragon ; open world'
@@ -56,3 +58,5 @@ en:
             - 'terraria ; open world sim'
             - 'minecraft ; open world sim'
             - 'satisfactory ; open world sim'
+            - 'tyranny ; rpg'
+            - 'baldurs gate 3 ; rpg'

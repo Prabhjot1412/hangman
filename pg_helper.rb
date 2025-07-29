@@ -3,7 +3,7 @@ require 'colorize'
 
 class PgHelper
   PG_USERNAME = 'postgres' # add pg username here
-  PG_PASSWORD = '1234' # add pg password here
+  PG_PASSWORD = '123456' # add pg password here
 
   attr_accessor :conn
 

@@ -39,7 +39,7 @@ loop do
       break
     end
 
-    puts coded_value.encoded_value
+    puts coded_value.encoded_value.capitalize
     puts "exit => quit pay => pay #{conf.pay_cost} lifes to skip"
     puts "already used => #{already_used.map {|l| coded_value.value.chars.include?(l) ? l.green : l.red}.join(', ')}"
     puts "lifes => #{conf.lifes}"

@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (1.1.0)
+    concurrent-ruby (1.3.5)
+    i18n (1.14.7)
+      concurrent-ruby (~> 1.0)
+    pg (1.5.9)
+
+PLATFORMS
+  x86_64-darwin-24
+
+DEPENDENCIES
+  colorize (~> 1.1)
+  i18n (~> 1.14)
+  pg
+
+BUNDLED WITH
+   2.4.10

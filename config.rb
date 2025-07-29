@@ -18,7 +18,7 @@ class Config
 
   attr_reader :hints, :cheat_mode, :hide_mode, :difficulty, :debug_mode
 
-  def initialize(difficulty: 30)
+  def initialize(difficulty: 300)
     @categories = {
       movie: [true, "VALUE_COLLECTION[:movie].first(#{difficulty}).sample"],
       game: [true, "VALUE_COLLECTION[:game].first(#{difficulty}).sample"],
@@ -35,13 +35,13 @@ class Config
     @hide_mode = 'random_revealed' # 'only_vowels' 'fully_hidden' 'random_revealed'
     @random_letters_revealed = 5
     @difficulty = difficulty
-    @bargain_frequency = 5
+    @bargain_frequency = 4
     @life_gain = 1
     @hint_after_this_many_attempts = 2
     @hint_life_threshold = 4
     @pay_cost = 8
     @skip_puzzle_on_solve = { chance: 0, stack: 0 }
-    @boons_to_choose_from = 4
+    @boons_to_choose_from = 5
     @bargain_cost = 0
     @life_cap = nil
 
