@@ -13,7 +13,7 @@ PLATFORMS
 DEPENDENCIES
   colorize (~> 1.1)
   i18n (~> 1.14)
-  pg
+  pg (~> 1.5)
 
 BUNDLED WITH
    2.4.10

@@ -23,7 +23,11 @@ module Value
         return [value.downcase, type.to_s]
       end
 
-      return ['$WIN$', '$WIN$'] if count >= 10
+      if skip
+        return ['$WIN$', '$WIN$'] if count >= 10000
+      else
+        return ['$WIN$', '$WIN$'] if count >= 10
+      end
 
       count += 1
       unless skip
