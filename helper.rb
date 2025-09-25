@@ -39,8 +39,9 @@ module Helper
         !Value.already_used[key]&.include?(item)
       end.count}"
     end
+
     puts ''
-    puts 'add your score and exit: add              view previous winners: list' if pg
+    puts 'add your score: add              view previous winners: list' if pg
 
     added = false
     loop do
